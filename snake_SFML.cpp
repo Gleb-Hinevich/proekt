@@ -61,57 +61,10 @@ int main()
 		clock.restart();
 		timer += time;
 
-		// Обрабатываем очередь событий в цикле
+		
 		Event event;
-		while (window.pollEvent(event))
-		{
-			// Пользователь нажал на «крестик» и хочет закрыть окно?
-			if (event.type == Event::Closed)
-				// тогда закрываем его
-				window.close();
-			if (event.type == Event::KeyPressed) {
-				if (event.key.code == Keyboard::Up && key!= 4 || event.key.code == Keyboard::W) { dy = -1; dx = 0; key = 3; }
-				else if (event.key.code == Keyboard::Down && key != 3 || event.key.code == Keyboard::S) { dy = 1; dx = 0; key = 4; }
-				else if (event.key.code == Keyboard::Left && key != 2 || event.key.code == Keyboard::A) { dx = -1; dy = 0; key = 1; }
-				else if (event.key.code == Keyboard::Right && key != 1 || event.key.code == Keyboard::D) { dx = 1; dy = 0; key = 2; }
-				else if (event.key.code == Keyboard::X) gameOver = true;
-			}
-		}
-
-		if (head.x == fruit.x && head.y == fruit.y) {
-			nTail++;
-			fruit.x = rand() % WIDTH;
-			fruit.y = rand() % HEIGHT;
-		}
-		if (timer > delay) {
-
-			int prevX = tail[0].x, prevY = tail[0].y;
-			tail[0].x = head.x;
-			tail[0].y = head.y;
-
-			for (int i = 1; i <= nTail; i++) {
-				prev2X = tail[i].x;
-				prev2Y = tail[i].y;
-				tail[i].x = prevX;
-				tail[i].y = prevY;
-				prevX = prev2X;
-				prevY = prev2Y;
-			}
-
-			head.x += dx;
-			head.y += dy;
-
-			timer = 0;
-		}
-		if (head.x < 0)
-			head.x = WIDTH-1;
-		if (head.x > WIDTH-1)
-			head.x = 0;
-		if (head.y < 0)
-			head.y = HEIGHT-1;
-		if (head.y > HEIGHT-1)
-			head.y = 0;
-
+		//1
+		//2
 		for (int i = 0; i < nTail; i++) {
 			if (tail[i].x == head.x && tail[i].y == head.y) {
 				for (int j = i; j < nTail; j++) {
@@ -130,89 +83,7 @@ int main()
 			first = false;
 		}
 		
-		for (int i = 0; i < nTail; i++) {
-			if (tail[i].x != 1000 && tail[i].y != 1000) {
-				if (i==(nTail-1) && (tail[i].y-tail[i-1].y)==1) {
-					spriteTail.setTextureRect(IntRect(54, 36, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if (i == (nTail - 1) && (tail[i].y - tail[i - 1].y) == -1) {
-					spriteTail.setTextureRect(IntRect(72, 54, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if (i == (nTail - 1) && (tail[i].x - tail[i - 1].x) == -1) {
-					spriteTail.setTextureRect(IntRect(72, 36, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if (i == (nTail - 1) && (tail[i].x - tail[i - 1].x) == 1) {
-					spriteTail.setTextureRect(IntRect(54, 54, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i + 1].x) == -1 && (tail[i].y - tail[i - 1].y) == 1) {
-					spriteTail.setTextureRect(IntRect(0, 18, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i - 1].x) == -1 && (tail[i].y - tail[i + 1].y) == 1) {
-					spriteTail.setTextureRect(IntRect(0, 18, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i - 1].x) == -1 && (tail[i].y - tail[i + 1].y) == -1) {
-					spriteTail.setTextureRect(IntRect(0, 0, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i + 1].x) == -1 && (tail[i].y - tail[i - 1].y) == -1) {
-					spriteTail.setTextureRect(IntRect(0, 0, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i + 1].x) == 1 && (tail[i].y - tail[i - 1].y) == -1) {
-					spriteTail.setTextureRect(IntRect(36, 0, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i - 1].x) == 1 && (tail[i].y - tail[i + 1].y) == -1) {
-					spriteTail.setTextureRect(IntRect(36, 0, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i - 1].x) == 1 && (tail[i].y - tail[i + 1].y) == 1) {
-					spriteTail.setTextureRect(IntRect(36, 36, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if ((tail[i].x - tail[i + 1].x) == 1 && (tail[i].y - tail[i - 1].y) == 1) {
-					spriteTail.setTextureRect(IntRect(36, 36, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if (tail[i].x > tail[i + 1].x || tail[i].x < tail[i + 1].x && tail[i].y == tail[i + 1].y) {
-					spriteTail.setTextureRect(IntRect(18, 0, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				else if (tail[i].y > tail[i + 1].y || tail[i].y < tail[i + 1].y && tail[i].x == tail[i + 1].x) {
-					spriteTail.setTextureRect(IntRect(36, 18, 18, 18));
-					spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-					window.draw(spriteTail);
-				}
-				
-				//else if (i > 0 && (tail[i + 1].x - tail[i].x) == 1 && (tail[i].y > tail[i - 1].y) == 1) {
-				//	spriteTail.setTextureRect(IntRect(0, 18, 18, 18));
-				//	spriteTail.setPosition(tail[i].x * 18, tail[i].y * 18);
-				//	window.draw(spriteTail);
-				//}
-
-
-
-			}
-		}
+		//3
 		spriteFruit.setPosition(fruit.x * 18, fruit.y * 18);
 		window.draw(spriteFruit);
 
