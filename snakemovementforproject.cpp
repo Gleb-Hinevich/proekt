@@ -1,3 +1,4 @@
+delay = 0.33;
 if (timer > delay) {
 
 	int prevX = tail[0].x, prevY = tail[0].y;
